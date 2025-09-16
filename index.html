@@ -114,7 +114,7 @@ function clasificacionGeneral() {
 
   const tablaClas = Object.entries(jugadores).sort((a,b) => b[1]-a[1]);
   const div = document.getElementById("clasificacion-general");
-  div.innerHTML = "<h2>Clasificación General</h2>";
+  div.innerHTML = "<h1>Clasificación General</h1>";
   const table = document.createElement('table');
   let thead = table.createTHead();
   thead.innerHTML = "<tr><th>Jugador</th><th>Puntos</th></tr>";
@@ -148,6 +148,7 @@ clasificacionGeneral();
 </script>
 </body>
 </html>
+
 
 
 
