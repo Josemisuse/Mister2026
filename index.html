@@ -33,6 +33,9 @@ function calcularPuntosTabla(tablaGoles, tablaPuntos) {
     } else if (goles2 > goles1) {
       rowPuntos.cells[1].innerText = 0;
       rowPuntos.cells[3].innerText = 3;
+    } else if (goles2 == 0 and goles1 == 0){
+      rowPuntos.cells[1].innerText = 0;
+      rowPuntos.cells[3].innerText = 0;
     } else {
       rowPuntos.cells[1].innerText = 1;
       rowPuntos.cells[3].innerText = 1;
@@ -124,7 +127,7 @@ function clasificacionGeneral() {
 
 // Todas las jornadas con goles inventados
 const todasJornadas = [
-  [["Carmelo","Fopi",12,28],["Juan","Óscar",27,24],["Joroje","Alex",19,27],["Jorge","Marcos",27,36],["Isma","Diego",39,0],["Víctor","Josemi",19,31]],
+  [["Carmelo","Fopi",12,28],["Juan","Óscar",27,24],["Joroje","Alex",19,27],["Jorge","Marcos",27,36],["Isma","Diego",39,50],["Víctor","Josemi",19,31]],
   [["Carmelo","Juan",53,50],["Fopi","Óscar",24,63],["Joroje","Jorge",37,34],["Alex","Marcos",38,48],["Isma","Víctor",61,32],["Diego","Josemi",40,44]],
   [["Carmelo","Joroje",36,21],["Juan","Alex",50,46],["Fopi","Jorge",38,21],["Óscar","Marcos",39,33],["Isma","Josemi",27,35],["Víctor","Diego",26,47]],
   [["Carmelo","Jorge",36,40],["Joroje","Marcos",16,33],["Juan","Isma",34,38],["Alex","Diego",86,26],["Fopi","Víctor",52,45],["Óscar","Josemi",25,44]],
@@ -143,5 +146,6 @@ clasificacionGeneral();
 </script>
 </body>
 </html>
+
 
 
