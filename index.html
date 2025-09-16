@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <title>Fantasy Hontangas 2026</title>
 <style>
-body { font-family: Arial, sans-serif; margin: 20px; background-image: url('mister2025.jpg'); background-size: 100% auto; background-repeat: repeat-y; background-position: top center;}
+body { 
+  font-family: Arial, sans-serif; 
+  margin: 20px; 
+  background-image: url('mister2025.jpg'); 
+  background-size: 100% auto; 
+  background-repeat: repeat-y; 
+  background-position: top center;
+}
 h1{ text-align: center; background-color: white; padding: 0 10px;}
 h2, h3 { text-align: center; display: inline-block; background-color: white; padding: 0 10px;}
 .jornada { margin-bottom: 30px; text-align: center;}
@@ -35,9 +42,9 @@ function calcularPuntosTabla(tablaGoles, tablaPuntos) {
     } else if (goles2 > goles1) {
       rowPuntos.cells[1].innerText = 0;
       rowPuntos.cells[3].innerText = 3;
-	} else if (goles1 === 0 && goles2 === 0) {  // empate 0-0
-    rowPuntos.cells[1].innerText = 0;
-    rowPuntos.cells[3].innerText = 0;
+    } else if (goles1 === 0 && goles2 === 0) {  // empate 0-0
+      rowPuntos.cells[1].innerText = 0;
+      rowPuntos.cells[3].innerText = 0;
     } else {
       rowPuntos.cells[1].innerText = 1;
       rowPuntos.cells[3].innerText = 1;
@@ -94,37 +101,70 @@ function crearJornada(num, enfrentamientos) {
   document.getElementById("todas-jornadas").appendChild(divJornada);
 }
 
-// Calcular clasificación general
-function clasificacionGeneral() {
+// Crear clasificación general y tabla de Mister
+function clasificacionMister() {
   const jugadores = {};
+  const misteres = {};
   for (let j = 1; j <= 11; j++) {
-    const tabla = document.getElementById(`puntos-${j}`);
-    if (!tabla) continue;
-    const cuerpo = tabla.tBodies[0]; // Solo tbody
-    for (let i = 0; i < cuerpo.rows.length; i++) {
-      const row = cuerpo.rows[i];
-      const j1 = row.cells[0].innerText;
-      const p1 = parseInt(row.cells[1].innerText);
-      const j2 = row.cells[2].innerText;
-      const p2 = parseInt(row.cells[3].innerText);
+    const tablaP = document.getElementById(`puntos-${j}`);
+    const tablaG = document.getElementById(`goles-${j}`);
+    if (!tablaP || !tablaG) continue;
+    const cuerpoP = tablaP.tBodies[0];
+    const cuerpoG = tablaG.tBodies[0];
+    for (let i = 0; i < cuerpoP.rows.length; i++) {
+      const rowP = cuerpoP.rows[i];
+      const rowG = cuerpoG.rows[i];
+      const j1 = rowP.cells[0].innerText;
+      const p1 = parseInt(rowP.cells[1].innerText);
+      const m1 = parseInt(rowG.cells[1].innerText);
+      const j2 = rowP.cells[2].innerText;
+      const p2 = parseInt(rowP.cells[3].innerText);
+      const m2 = parseInt(rowG.cells[3].innerText);
+
       jugadores[j1] = (jugadores[j1] || 0) + p1;
       jugadores[j2] = (jugadores[j2] || 0) + p2;
+
+      misteres[j1] = (misteres[j1] || 0) + m1;
+      misteres[j2] = (misteres[j2] || 0) + m2;
     }
   }
 
-  const tablaClas = Object.entries(jugadores).sort((a,b) => b[1]-a[1]);
+  const tablaPuntos = Object.entries(jugadores).sort((a,b)=>b[1]-a[1]);
+  const tablaMister = Object.entries(misteres).sort((a,b)=>b[1]-a[1]);
+
   const div = document.getElementById("clasificacion-general");
-  div.innerHTML = "<h1>Clasificación General</h1>";
-  const table = document.createElement('table');
-  let thead = table.createTHead();
-  thead.innerHTML = "<tr><th>Jugador</th><th>Puntos</th></tr>";
-  let tbody = table.createTBody();
-  tablaClas.forEach(j => {
-    let row = tbody.insertRow();
+  div.innerHTML = "<h1>Clasificación General y Mister</h1>";
+
+  const contenedor = document.createElement("div");
+  contenedor.style.display = "flex";
+  contenedor.style.justifyContent = "center";
+  contenedor.style.gap = "40px";
+
+  // Tabla Puntos
+  const tableP = document.createElement("table");
+  let theadP = tableP.createTHead();
+  theadP.innerHTML = "<tr><th>Jugador</th><th>Puntos</th></tr>";
+  let tbodyP = tableP.createTBody();
+  tablaPuntos.forEach(j => {
+    let row = tbodyP.insertRow();
     row.insertCell().innerText = j[0];
     row.insertCell().innerText = j[1];
   });
-  div.appendChild(table);
+
+  // Tabla Mister
+  const tableM = document.createElement("table");
+  let theadM = tableM.createTHead();
+  theadM.innerHTML = "<tr><th>Jugador</th><th>Puntos Mister</th></tr>";
+  let tbodyM = tableM.createTBody();
+  tablaMister.forEach(j => {
+    let row = tbodyM.insertRow();
+    row.insertCell().innerText = j[0];
+    row.insertCell().innerText = j[1];
+  });
+
+  contenedor.appendChild(tableP);
+  contenedor.appendChild(tableM);
+  div.appendChild(contenedor);
 }
 
 // Todas las jornadas con goles inventados
@@ -144,21 +184,7 @@ const todasJornadas = [
 
 // Crear todas las jornadas y calcular puntos
 todasJornadas.forEach((jornada, idx) => crearJornada(idx+1, jornada));
-clasificacionGeneral();
+clasificacionMister();
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
